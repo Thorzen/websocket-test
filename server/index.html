@@ -1,4 +1,35 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  var socket = io();
+ var methods = (function () {
+    var socket = io();
+    socket.on('guessresponse', function (res) {
+      //Clear old answer to create a rough clue to the user that a new response came back.
+      document.querySelector('.answer').textContent = '';
+      document.querySelector('.message').select();
+      setTimeout(function () {      
+        document.querySelector('.answer').textContent = res;
+      }, 100);
+    });
+    var methods = {
+      sendMsg: function () {
+        var message = document.querySelector('.message');
+        socket.emit("message", message.value);
+        return false;
+      }
+    };
+
+    return methods;
+
+  }());
 </script>
+
+<html>
+  <body>
+    <div>Guess a number between 1 and 100</div>
+    <form onsubmit="methods.sendMsg()">
+    <input class="message" type="text" autofocus>
+    <input type="submit">
+    </form>
+    <div class="answer"></div>
+  </body>
+</html>
