@@ -15,6 +15,7 @@ io.on('connection', function(socket) {
 
   socket.on('message', function (num) {
     num = parseInt(num, 10);
+    socket.broadcast.emit('user-guesses', 'User guessed ' + num);
     socket.emit('guessresponse', num === randomNum ? 'You got it!' : (num < randomNum ? 'Too low' : 'Too high'))
   });
 });
